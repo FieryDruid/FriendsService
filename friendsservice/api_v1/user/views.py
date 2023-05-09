@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as i18n
 from drf_spectacular.utils import extend_schema
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -28,11 +29,10 @@ from friendsservice.friendship.services.sent_requests import GetSentFriendshipRe
 
 User = get_user_model()
 
-
 class CreateUserView(APIView):
 
     @extend_schema(
-        description='Create new user',
+        description=i18n('Create new user'),
         request=UserDataSerializer,
         responses={
             200: None,
@@ -62,7 +62,7 @@ class AddUserView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        description='Send friendship request to user',
+        description=i18n('Send friendship request to user'),
         request=UsernameSerializer,
         responses={
             200: None,
@@ -88,7 +88,7 @@ class UserSentFriendshipView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        description='Get sent friendship requests list',
+        description=i18n('Get sent friendship requests list'),
         responses={
             200: SentFriendshipRequestsSerializer(many=True)
         },
@@ -105,7 +105,7 @@ class UserReceivedFriendshipView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        description='Get received friendship requests list',
+        description=i18n('Get received friendship requests list'),
         responses={
             200: ReceivedFriendshipRequestsSerializer(many=True)
         },
@@ -122,7 +122,7 @@ class AcceptFriendshipRequestView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        description='Accept friendship request',
+        description=i18n('Accept friendship request'),
         responses={
             200: None
         },
@@ -130,7 +130,7 @@ class AcceptFriendshipRequestView(APIView):
     )
     def get(self, request: Request, **kwargs) -> Response:
         try:
-            ChangeFriendshipStatusService(friendship_id=kwargs['friendship_id'], status=FriendshipStatus.CONFIRMED)()
+            ChangeFriendshipStatusService(friendship=kwargs['friendship_id'], status=FriendshipStatus.CONFIRMED)()
         except FriendshipRequestDoesNotExistsError:
             return Response({'error': 'Friendship request not found'}, status=404)
         return Response(status=200)
@@ -140,7 +140,7 @@ class DeclineFriendshipRequestView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        description='Decline friendship request',
+        description=i18n('Decline friendship request'),
         responses={
             200: None
         },
@@ -149,7 +149,7 @@ class DeclineFriendshipRequestView(APIView):
     def get(self, request: Request, **kwargs) -> Response:
         friendship_id = kwargs['friendship_id']
         try:
-            ChangeFriendshipStatusService(friendship_id=kwargs['friendship_id'], status=FriendshipStatus.DECLINED)()
+            ChangeFriendshipStatusService(friendship=kwargs['friendship_id'], status=FriendshipStatus.DECLINED)()
         except FriendshipRequestDoesNotExistsError:
             return Response({'error': f'Not found active friendship request with id {friendship_id}'}, status=404)
         return Response(status=200)
@@ -159,7 +159,7 @@ class UserFriendshipView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        description='Get friendship with user status',
+        description=i18n('Get friendship with user status'),
         responses={
             200: None
         },
@@ -176,7 +176,7 @@ class UserFriendshipView(APIView):
         return Response(status=400)
 
     @extend_schema(
-        description='Delete user from friends',
+        description=i18n('Delete user from friends'),
         responses={
             200: None,
             404: None
@@ -195,7 +195,7 @@ class UserFriendsView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        description='Get friends list',
+        description=i18n('Get friends list'),
         responses={
             200: UserFriendsListSerializer()
         },
