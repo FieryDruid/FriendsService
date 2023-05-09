@@ -29,6 +29,7 @@ from friendsservice.friendship.services.sent_requests import GetSentFriendshipRe
 
 User = get_user_model()
 
+
 class CreateUserView(APIView):
 
     @extend_schema(
@@ -54,7 +55,10 @@ class CreateUserView(APIView):
         if already_exists:
             return Response({'error': {'username': ['User already exists']}}, status=400)
 
-        User(username=serializer_data['username'], password=make_password(serializer_data['password'])).save()
+        User.objects.create(
+            username=serializer_data['username'],
+            password=make_password(serializer_data['password'])
+        )
         return Response(status=200)
 
 
