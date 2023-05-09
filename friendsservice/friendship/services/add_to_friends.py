@@ -27,32 +27,25 @@ class AddToFriendsService:
     @property
     def _exist_request(self) -> UserFriendship | None:
         return UserFriendship.objects.filter(
-            (Q(recipient=self.sender, sender=self.recipient) | Q(recipient=self.recipient, sender=self.sender))
-        ).first()
-
-    @property
-    def _deleted_friendship_status(self) -> UserFriendship | None:
-        return UserFriendship.objects.filter(
-            (Q(recipient=self.sender, sender=self.recipient) | Q(recipient=self.recipient, sender=self.sender))
-            & Q(status=FriendshipStatus.DELETED.value)
+            Q(recipient=self.sender, sender=self.recipient) | Q(recipient=self.recipient, sender=self.sender)
         ).first()
 
     def _create_friendship(self) -> None:
         exist_request = self._exist_request
 
-        if not exist_request or (exist_request and exist_request.status == FriendshipStatus.DECLINED.value):
+        if not exist_request:
             UserFriendship.objects.create(
                 sender=self.sender,
                 recipient=self.recipient,
             )
             return
 
-        if exist_request.status == FriendshipStatus.DELETED.value:
+        if exist_request.status == FriendshipStatus.DECLINED.value:
             raise UserCannotBeFriendError
 
         if exist_request.status == FriendshipStatus.CONFIRMED.value:
             return
-        
+
         if exist_request.status == FriendshipStatus.ACTIVE.value and exist_request.recipient == self.sender:
             exist_request.status = FriendshipStatus.CONFIRMED.value
             exist_request.save()
