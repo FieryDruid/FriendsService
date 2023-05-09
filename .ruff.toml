@@ -17,6 +17,7 @@ ignore = [
     "D105",
     "D400",
     "D415",
+    "N818",
 ]
 
 # Exclude a variety of commonly ignored directories.
