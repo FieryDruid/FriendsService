@@ -26,15 +26,28 @@ class UsernameSerializer(serializers.Serializer):
     username = serializers.CharField()
 
 
-class RecipientField(serializers.RelatedField):
+class UsernameField(serializers.RelatedField):
+    username = serializers.CharField()
 
     def to_representation(self, value: User) -> str:
         return value.username
 
 
 class SentFriendshipRequestsSerializer(serializers.ModelSerializer):
-    recipient = RecipientField(read_only=True)
+    recipient = UsernameField(read_only=True)
 
     class Meta:
         model = UserFriendship
         fields = ('id', 'recipient')
+
+
+class ReceivedFriendshipRequestsSerializer(serializers.ModelSerializer):
+    sender = UsernameField(read_only=True)
+
+    class Meta:
+        model = UserFriendship
+        fields = ('id', 'sender')
+
+
+class UserFriendsListSerializer(serializers.Serializer):
+    friends = serializers.ListField(child=serializers.CharField(), allow_empty=True)
