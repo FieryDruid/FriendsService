@@ -12,6 +12,7 @@ djangorestframework = "^3.14.0"
 drf-spectacular = "^0.26.2"
 djangorestframework-simplejwt = "^5.2.2"
 django-environ = "^0.10.0"
+psycopg2 = "^2.9.6"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.0.265"
