@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "friendsservice"
+version = "0.0.1"
+description = "Friends API"
+authors = ["Pavel Krasnobaev <mrfierydruid@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^4.2.1"
+djangorestframework = "^3.14.0"
+drf-spectacular = "^0.26.2"
+djangorestframework-simplejwt = "^5.2.2"
+django-environ = "^0.10.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.265"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
