@@ -9,8 +9,14 @@ ignore = [
     "ANN003",
     "ANN101",
     "ANN102",
+    "ANN204",
     "COM812",
-    "D100"
+    "D100",
+    "D101",
+    "D102",
+    "D105",
+    "D400",
+    "D415",
 ]
 
 # Exclude a variety of commonly ignored directories.
