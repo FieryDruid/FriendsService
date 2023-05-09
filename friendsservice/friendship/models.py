@@ -10,7 +10,6 @@ class FriendshipStatus(Enum):
     ACTIVE = 'active'
     CONFIRMED = 'confirmed'
     DECLINED = 'declined'
-    DELETED = 'deleted'
 
     @classmethod
     def to_choices(cls) -> list[tuple[str, str]]:
