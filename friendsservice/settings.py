@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'friendsservice.api_v1',
+    'friendsservice.friendship',
 ]
 
 INSTALLED_APPS = BASE_APPS + THIRD_PARTY_APPS + LOCAL_APPS

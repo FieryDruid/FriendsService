@@ -1,4 +1,7 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
+
+from friendsservice.friendship.models import UserFriendship
 
 
 class UserDataSerializer(serializers.Serializer):
@@ -13,3 +16,25 @@ class UserErrorSerializer(serializers.Serializer):
 
 class UserCreationErrorSerializer(serializers.Serializer):
     error = UserErrorSerializer()
+
+
+class CreateFriendshipErrorSerializer(serializers.Serializer):
+    error = serializers.CharField()
+
+
+class UsernameSerializer(serializers.Serializer):
+    username = serializers.CharField()
+
+
+class RecipientField(serializers.RelatedField):
+
+    def to_representation(self, value: User) -> str:
+        return value.username
+
+
+class SentFriendshipRequestsSerializer(serializers.ModelSerializer):
+    recipient = RecipientField(read_only=True)
+
+    class Meta:
+        model = UserFriendship
+        fields = ('id', 'recipient')
