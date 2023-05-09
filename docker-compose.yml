@@ -6,6 +6,7 @@ services:
     image: postgres:15.2-alpine3.17
     environment:
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: friendsservice
     ports:
       - "5432:5432"
     restart: always
