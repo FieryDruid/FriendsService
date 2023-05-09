@@ -4,9 +4,21 @@ version: '3.9'
 services:
   postgres:
     image: postgres:15.2-alpine3.17
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: friendsservice
+    expose:
+      - 5342
+    env_file:
+      - .envs/.env
+    restart: always
+
+  django:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: friends_service_backend
+    depends_on:
+      - postgres
     ports:
-      - "5432:5432"
+      - "8000:8000"
+    env_file:
+      - .envs/.env
     restart: always
