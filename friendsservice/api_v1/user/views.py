@@ -134,7 +134,9 @@ class AcceptFriendshipRequestView(APIView):
     )
     def get(self, request: Request, **kwargs) -> Response:
         try:
-            ChangeFriendshipStatusService(friendship=kwargs['friendship_id'], status=FriendshipStatus.CONFIRMED)()
+            ChangeFriendshipStatusService(
+                friendship=kwargs['friendship_id'], status=FriendshipStatus.CONFIRMED, user=request.user
+            )()
         except FriendshipRequestDoesNotExistsError:
             return Response({'error': 'Friendship request not found'}, status=404)
         return Response(status=200)

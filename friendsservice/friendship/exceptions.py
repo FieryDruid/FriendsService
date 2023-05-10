@@ -14,6 +14,10 @@ class FriendshipRequestDoesNotExistsError(Exception):
     """Friendship request does not exists"""
 
 
+class SelfFriendshipRequestAcceptError(Exception):
+    """Friendship request does not exists"""
+
+
 class UserNotInFriendsListError(Exception):
     """User not in friends list"""
 
