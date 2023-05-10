@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 
-from friendsservice.friendship.exceptions import FriendshipRequestAlreadyExistsError, UserDoesNotExistsError, \
-    UserCannotBeFriendError
+from friendsservice.friendship.exceptions import (
+    FriendshipRequestAlreadyExistsError, UserDoesNotExistsError, UserCannotBeFriendError
+)
 from friendsservice.friendship.models import UserFriendship, FriendshipStatus
 from friendsservice.friendship.services.add_to_friends import AddToFriendsService
 from friendsservice.friendship.tests.base import BaseTestCase
